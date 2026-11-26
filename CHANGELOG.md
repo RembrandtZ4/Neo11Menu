@@ -1,5 +1,9 @@
 # Änderungen
 
+## 1.3.0 – 26.11.2026
+
+- Werden „Zuletzt geöffnete Apps“ oder „Zuletzt verwendete Dokumente“ abgeschaltet, nutzen die angehefteten Apps den frei gewordenen Platz für zusätzliche Reihen – die Menügröße bleibt gleich
+
 ## 1.2.0 – 26.11.2026
 
 - Neue Einstellung: wechselnde Überschrift je nach Tageszeit (z. B. „Abendauswahl“) abschaltbar – dann steht dort schlicht „Zuletzt verwendet“

@@ -415,7 +415,7 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
 
             Text {
-                text: i18n("Version: 1.2.0 (basiert auf Menu 11 Next 1.3)")
+                text: i18n("Version: 1.3.0 (basiert auf Menu 11 Next 1.3)")
                 Layout.fillWidth: true
             }
 

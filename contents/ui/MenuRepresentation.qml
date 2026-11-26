@@ -212,7 +212,17 @@ PlasmaCore.Dialog {
         property int widthComputed: root.cellSizeWidth * Plasmoid.configuration.numberColumns + Kirigami.Units.gridUnit * 2
 
         property int pinnedCurrentPage: 0
-        property int pinnedItemsPerPage: Plasmoid.configuration.numberColumns * Plasmoid.configuration.numberRows
+        // Abgeschaltete Bereiche (Zuletzt verwendet / Dokumente) machen Platz für weitere Reihen angehefteter Apps
+        readonly property int recentStripFull: Kirigami.Units.iconSizes.medium + Kirigami.Units.largeSpacing * 3
+        readonly property int docsBlockFull: butttonActionAllApps.implicitHeight + Kirigami.Units.largeSpacing * 2
+                                             + (root.docsIconSize + Kirigami.Units.largeSpacing * 2) * 3
+        readonly property int freedHeight: (Plasmoid.configuration.showRecentApps ? 0 : recentStripFull)
+                                           + (Plasmoid.configuration.showRecentDocs ? 0 : docsBlockFull)
+        readonly property int extraPinnedRows: root.cellSizeHeight > 0 ? Math.floor(freedHeight / root.cellSizeHeight) : 0
+        readonly property int pinnedRows: Plasmoid.configuration.numberRows + extraPinnedRows
+        readonly property int leftoverHeight: freedHeight - extraPinnedRows * root.cellSizeHeight
+
+        property int pinnedItemsPerPage: Plasmoid.configuration.numberColumns * pinnedRows
         property bool ctrlHeld: false
         property int pinnedTotalPages: globalFavoritesGrid.count > 0
             ? Math.max(1, Math.ceil(globalFavoritesGrid.count / pinnedItemsPerPage))
@@ -894,9 +904,7 @@ PlasmaCore.Dialog {
                   + (3 * Kirigami.Units.largeSpacing)
                   + Kirigami.Units.gridUnit
                   + Kirigami.Units.largeSpacing * 2
-                  + (Plasmoid.configuration.showRecentApps
-                     ? Kirigami.Units.iconSizes.medium + Kirigami.Units.largeSpacing * 3
-                     : 0)
+                  + rootItem.recentStripFull
                   + (rootItem.pinnedFoldersData.length > 0
                      ? (Math.ceil(rootItem.pinnedFoldersData.length / Math.max(1, Plasmoid.configuration.numberColumns)) * root.cellSizeHeight + Kirigami.Units.largeSpacing * 2)
                      : 0)
@@ -969,7 +977,7 @@ PlasmaCore.Dialog {
                 ItemGridView {
                     id: globalFavoritesGrid
                     width: parent.width
-                    height: root.cellSizeHeight * Plasmoid.configuration.numberRows
+                    height: root.cellSizeHeight * rootItem.pinnedRows
                     itemColumns: 1
                     dragEnabled: true
                     dropEnabled: true
@@ -979,7 +987,7 @@ PlasmaCore.Dialog {
                     onKeyNavUp: {
                         if (rootItem.pinnedCurrentPage > 0) {
                             rootItem.pinnedCurrentPage--;
-                            globalFavoritesGrid.tryActivate(Plasmoid.configuration.numberRows - 1, 0);
+                            globalFavoritesGrid.tryActivate(rootItem.pinnedRows - 1, 0);
                         } else {
                             globalFavoritesGrid.focus = false;
                             searchField.focus = true;
@@ -1246,7 +1254,7 @@ PlasmaCore.Dialog {
                     width: parent.width
                 }
 
-                // Fixed-height container so the menu never resizes when docs/recent-apps are toggled
+                // Bereich für „Zuletzt verwendet“ und Dokumente – abgeschaltete Teile gehen an die angehefteten Apps
                 Item {
                     id: docsContainer
                     width: parent.width
@@ -1256,9 +1264,8 @@ PlasmaCore.Dialog {
                         : 0
 
                     height: recentAppsStripHeight
-                          + butttonActionAllApps.implicitHeight
-                          + Kirigami.Units.largeSpacing * 2
-                          + (docsIconSize + Kirigami.Units.largeSpacing * 2) * 3
+                          + (Plasmoid.configuration.showRecentDocs ? rootItem.docsBlockFull : 0)
+                          + rootItem.leftoverHeight
 
                     // Recently opened apps — horizontal icon strip
                     Item {
@@ -1408,7 +1415,7 @@ PlasmaCore.Dialog {
                         id: documentsGrid
                         y: docsContainer.recentAppsStripHeight + butttonActionAllApps.implicitHeight + Kirigami.Units.largeSpacing * 2
                         width: rootItem.widthComputed
-                        height: (docsIconSize + Kirigami.Units.largeSpacing * 2) * 3
+                        height: (root.docsIconSize + Kirigami.Units.largeSpacing * 2) * 3
                         itemColumns: 2
                         dragEnabled: true
                         dropEnabled: true
@@ -3146,7 +3153,7 @@ PlasmaCore.Dialog {
             if (event.modifiers === Qt.ControlModifier) {
                 var digit = event.key - Qt.Key_1;
                 if (digit >= 0 && digit <= 8) {
-                    var perPage = Plasmoid.configuration.numberColumns * Plasmoid.configuration.numberRows;
+                    var perPage = Plasmoid.configuration.numberColumns * rootItem.pinnedRows;
                     var appIdx = rootItem.pinnedCurrentPage * perPage + digit;
                     if (appIdx < globalFavorites.count) {
                         event.accepted = true;

@@ -57,7 +57,7 @@ PlasmoidItem {
     property QtObject globalFavorites: rootModel.favoritesModel
     property QtObject systemFavorites: rootModel.systemFavoritesModel
 
-    Plasmoid.icon: Plasmoid.configuration.useCustomButtonImage ? Plasmoid.configuration.customButtonImage : Plasmoid.configuration.icon
+    Plasmoid.icon: Plasmoid.configuration.useCustomButtonImage ? Plasmoid.configuration.customButtonImage : (Plasmoid.configuration.useNeoButton ? "neo11menu" : Plasmoid.configuration.icon)
 
     onSystemFavoritesChanged: {
         if (systemFavorites) {

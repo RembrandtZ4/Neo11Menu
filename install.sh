@@ -14,6 +14,10 @@ if [ "$(id -u)" -eq 0 ]; then
   exit 1
 fi
 
+# Eigenes Symbol (für Info-Seite, Widget-Auswahl und Einstellungen)
+install -Dm644 contents/icons/neo11menu.svg "$HOME/.local/share/icons/hicolor/scalable/apps/neo11menu.svg"
+command -v kbuildsycoca6 >/dev/null 2>&1 && kbuildsycoca6 >/dev/null 2>&1 || true
+
 if [ -d "$HOME/.local/share/plasma/plasmoids/$ID" ]; then
   echo "Neo11Menu wird aktualisiert …"
   kpackagetool6 -t Plasma/Applet -u .

@@ -1,5 +1,9 @@
 # Änderungen
 
+## 1.1.1 – 26.11.2026
+
+- Eigenes Neo11Menu-Symbol (Kacheln auf dunklem Grund) für die Info-Seite, die Widget-Auswahl und die Einstellungen – ersetzt das Symbol des Icon-Themes
+
 ## 1.1.0 – 26.11.2026
 
 - Eigener Neo11-Startbutton: 3×3 flache, abgerundete Kacheln

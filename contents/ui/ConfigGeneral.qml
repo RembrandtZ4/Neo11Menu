@@ -152,7 +152,7 @@ KCM.SimpleKCM {
                     anchors.centerIn: parent
                     width: Kirigami.Units.iconSizes.large
                     height: width
-                    source: configGeneral.cfg_useCustomButtonImage ? configGeneral.cfg_customButtonImage : configGeneral.cfg_icon
+                    source: configGeneral.cfg_useCustomButtonImage ? configGeneral.cfg_customButtonImage : (configGeneral.cfg_useNeoButton ? "neo11menu" : configGeneral.cfg_icon)
                 }
             }
 
@@ -408,7 +408,7 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
 
             Text {
-                text: i18n("Version: 1.1.0 (basiert auf Menu 11 Next 1.3)")
+                text: i18n("Version: 1.1.1 (basiert auf Menu 11 Next 1.3)")
                 Layout.fillWidth: true
             }
 

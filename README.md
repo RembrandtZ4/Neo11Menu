@@ -41,6 +41,7 @@ Das Skript erkennt eine vorhandene Installation, aktualisiert sie und startet Pl
 
 ```bash
 kpackagetool6 -t Plasma/Applet -r de.rembrandtz4.neo11menu
+rm ~/.local/share/icons/hicolor/scalable/apps/neo11menu.svg
 ```
 
 ## Lizenz

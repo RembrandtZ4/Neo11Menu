@@ -45,6 +45,7 @@ KCM.SimpleKCM {
     id: configGeneral
 
 
+    property alias cfg_useNeoButton: useNeoButtonCb.checked
     property string cfg_icon: plasmoid.configuration.icon
     property bool cfg_useCustomButtonImage: plasmoid.configuration.useCustomButtonImage
     property string cfg_customButtonImage: plasmoid.configuration.customButtonImage
@@ -74,8 +75,15 @@ KCM.SimpleKCM {
         anchors.left: parent.left
         anchors.right: parent.right
 
+        CheckBox {
+            id: useNeoButtonCb
+            Kirigami.FormData.label: i18n("Startbutton:")
+            text: i18n("Eigenen Neo11-Startbutton verwenden")
+        }
+
         Button {
             id: iconButton
+            enabled: !useNeoButtonCb.checked
 
             Kirigami.FormData.label: i18n("Symbol:")
 
@@ -400,7 +408,7 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
 
             Text {
-                text: i18n("Version: 1.0.0 (basiert auf Menu 11 Next 1.3)")
+                text: i18n("Version: 1.1.0 (basiert auf Menu 11 Next 1.3)")
                 Layout.fillWidth: true
             }
 

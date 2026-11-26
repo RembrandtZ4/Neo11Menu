@@ -4,6 +4,7 @@ Ein Startmenü im Stil von Windows 11 für KDE Plasma 6 – eine eigene, deutsch
 
 ## Funktionen
 
+- Eigener Startbutton (3×3 Kacheln) mit Hover-Effekt im Stil von Windows 11
 - Angeheftete Apps, alle Apps als Liste, Raster oder nach Kategorien
 - Ordner per Drag & Drop
 - Zuletzt verwendete Dokumente und Apps

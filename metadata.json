@@ -1,0 +1,29 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "RembrandtZ4"
+            },
+            {
+                "Email": "hello@eisteed.com",
+                "Name": "Eisteed (Menu 11 Next, Vorlage)"
+            }
+        ],
+        "Category": "Application Launchers",
+        "Description": "Startmenü im Stil von Windows 11 – eigene deutsche Version auf Basis von Menu 11 Next",
+        "Description[de]": "Startmenü im Stil von Windows 11 – eigene deutsche Version auf Basis von Menu 11 Next",
+        "EnabledByDefault": true,
+        "Icon": "start-here-kde",
+        "Id": "de.rembrandtz4.neo11menu",
+        "License": "GPL-2.0+",
+        "Name": "Neo11Menu",
+        "Name[de]": "Neo11Menu",
+        "Version": "1.0.0",
+        "Website": "https://github.com/RembrandtZ4/Neo11Menu"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": [
+        "org.kde.plasma.launchermenu"
+    ]
+}

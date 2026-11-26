@@ -1,5 +1,9 @@
 # Änderungen
 
+## 1.2.0 – 26.11.2026
+
+- Neue Einstellung: wechselnde Überschrift je nach Tageszeit (z. B. „Abendauswahl“) abschaltbar – dann steht dort schlicht „Zuletzt verwendet“
+
 ## 1.1.1 – 26.11.2026
 
 - Eigenes Neo11Menu-Symbol (Kacheln auf dunklem Grund) für die Info-Seite, die Widget-Auswahl und die Einstellungen – ersetzt das Symbol des Icon-Themes

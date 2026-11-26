@@ -516,6 +516,7 @@ PlasmaCore.Dialog {
 
         // ── Smart Context ────────────────────────────────────────────────────
         property string contextLabel: {
+            if (!Plasmoid.configuration.smartContextLabel) return i18n("Zuletzt verwendet");
             var counts = rootItem.launchCounts;
             // Check for workflow pattern: any app with bucket score >= 6
             var hasWorkflow = false;

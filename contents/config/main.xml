@@ -111,6 +111,10 @@
     <entry name="showRecentApps" type="Bool">
       <default>false</default>
     </entry>
+    <entry name="smartContextLabel" type="Bool">
+      <default>true</default>
+      <label>Use time-of-day titles for the recent apps strip</label>
+    </entry>
 
     <entry name="enableShellRunner" type="Bool">
       <default>true</default>

@@ -61,6 +61,7 @@ KCM.SimpleKCM {
     property alias cfg_allAppsSortMode: allAppsSortMode.currentIndex
     property alias cfg_showRecentDocs: showRecentDocsCb.checked
     property alias cfg_showRecentApps: showRecentAppsCb.checked
+    property alias cfg_smartContextLabel: smartContextLabelCb.checked
     property alias cfg_enableShellRunner: enableShellRunnerCb.checked
     property alias cfg_showQuickActions: showQuickActionsCb.checked
     property alias cfg_showSleepButton: showSleepCb.checked
@@ -271,6 +272,12 @@ KCM.SimpleKCM {
         }
 
         CheckBox {
+            id: smartContextLabelCb
+            enabled: showRecentAppsCb.checked
+            text: i18n("Wechselnde Überschrift je nach Tageszeit (z. B. „Abendauswahl“)")
+        }
+
+        CheckBox {
             id: enableShellRunnerCb
             text: i18n("Shell-Befehle ausführen ( > Befehl )")
         }
@@ -408,7 +415,7 @@ KCM.SimpleKCM {
             Layout.fillWidth: true
 
             Text {
-                text: i18n("Version: 1.1.1 (basiert auf Menu 11 Next 1.3)")
+                text: i18n("Version: 1.2.0 (basiert auf Menu 11 Next 1.3)")
                 Layout.fillWidth: true
             }
 

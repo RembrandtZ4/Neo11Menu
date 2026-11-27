@@ -139,15 +139,16 @@ Item {
 
         horizontalAlignment: isIndented ? Text.AlignLeft : Text.AlignHCenter
 
-        maximumLineCount: 1
-        elide: Text.ElideMiddle
-        wrapMode: Text.Wrap
+        // Lange Namen wie bei Windows 11: an Wortgrenzen auf zwei Zeilen umbrechen,
+        // erst danach mit „…“ kürzen (vorher wurde hart abgeschnitten)
+        maximumLineCount: isIndented ? 1 : 2
+        elide: Text.ElideRight
+        wrapMode: isIndented ? Text.NoWrap : Text.Wrap
+        lineHeight: 0.95
 
         color: isIndented ? root.colorWithAlpha(Kirigami.Theme.textColor, 0.85) : Kirigami.Theme.textColor
 
-        font.pointSize: isIndented
-                        ? Kirigami.Theme.defaultFont.pointSize * 0.9
-                        : Kirigami.Theme.defaultFont.pointSize
+        font.pointSize: Kirigami.Theme.defaultFont.pointSize * 0.9
         text: ("name" in model ? model.name : model.display)
         textFormat: Text.PlainText
     }

@@ -111,6 +111,7 @@ PlasmaCore.Dialog {
             if (weatherCard) {
                 weatherCard.updateWeather();
             }
+            root.refreshTaskbarPins();
             rootItem.playOpenAnimation();
         } else {
             view.currentIndex = 0;
@@ -209,6 +210,66 @@ PlasmaCore.Dialog {
     readonly property color accentTextColor: Plasmoid.configuration.accentMode === 1
         ? Kirigami.Theme.highlightedTextColor
         : Kirigami.Theme.backgroundColor
+
+    // ── Neo11 Taskleiste: Apps aus dem Startmenü anheften ──────────────────
+    // Plasma kennt nur seine eigenen Fensterleisten. Mit der Neo11 Taskleiste bot das
+    // Kontextmenü deshalb nur „Zur Kontrollleiste hinzufügen (Widget)“ an – das setzte ein
+    // einzelnes Symbol ganz rechts hinter den Infobereich. Wir reden stattdessen direkt
+    // mit der Neo11 Taskleiste (über das Plasma-Skript der Arbeitsfläche).
+    readonly property string neo11TaskbarId: "de.rembrandtz4.neo11taskbar"
+    property bool neo11TaskbarFound: false
+    property var neo11TaskbarLaunchers: []
+
+    function desktopIdOf(favoriteId) {
+        var id = String(favoriteId || "").replace(/^applications:/, "");
+        id = id.split("/").pop();
+        return /^[A-Za-z0-9._+-]+\.desktop$/.test(id) ? id : "";
+    }
+
+    function isPinnedToTaskbar(favoriteId) {
+        var id = desktopIdOf(favoriteId);
+        if (id === "") {
+            return false;
+        }
+        for (var i = 0; i < neo11TaskbarLaunchers.length; i++) {
+            if (desktopIdOf(neo11TaskbarLaunchers[i]) === id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function plasmaScriptCommand(js, tag) {
+        // js enthält absichtlich keine einfachen Anführungszeichen
+        return "busctl --user --json=short call org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell evaluateScript s '"
+               + js + "' # " + tag + " " + Date.now();
+    }
+
+    function refreshTaskbarPins() {
+        var js = 'var r = {found: false, launchers: []};'
+               + 'panels().forEach(function (p) { p.widgets("' + neo11TaskbarId + '").forEach(function (w) {'
+               + '  r.found = true; w.currentConfigGroup = ["General"];'
+               + '  r.launchers = r.launchers.concat(w.readConfig("launchers", [])); }); });'
+               + 'print(JSON.stringify(r));';
+        taskbarBridge.connectSource(plasmaScriptCommand(js, "NEO11READ"));
+    }
+
+    function setTaskbarPin(favoriteId, pin) {
+        var id = desktopIdOf(favoriteId);
+        if (id === "") {
+            return;
+        }
+        var js = 'var id = "' + id + '";'
+               + 'function base(x) { return String(x).replace(/^applications:/, "").split("/").pop(); }'
+               + 'panels().forEach(function (p) { p.widgets("' + neo11TaskbarId + '").forEach(function (w) {'
+               + '  w.currentConfigGroup = ["General"];'
+               + '  var l = [].concat(w.readConfig("launchers", []));'
+               + '  var has = l.some(function (x) { return base(x) === id; });'
+               + (pin ? '  if (!has) { l.push("applications:" + id); }'
+                      : '  l = l.filter(function (x) { return base(x) !== id; });')
+               + '  w.writeConfig("launchers", l); w.reloadConfig(); }); });';
+        taskbarBridge.connectSource(plasmaScriptCommand(js, "NEO11WRITE"));
+    }
 
     function colorWithAlpha(color: color, alpha: real): color {
         return Qt.rgba(color.r, color.g, color.b, alpha);
@@ -619,6 +680,30 @@ PlasmaCore.Dialog {
             { name: "terminal",   icon: "utilities-terminal",  desc: i18n("Ein Terminal öffnen"),        cmd: "konsole" },
             { name: "logout",     icon: "system-log-out",      desc: i18n("Abmelden"),                cmd: "loginctl terminate-user " + Qt.application.name }
         ])
+
+        Plasma5Support.DataSource {
+            id: taskbarBridge
+            engine: "executable"
+            connectedSources: []
+
+            onNewData: function (source, data) {
+                disconnectSource(source);
+                if (source.indexOf("NEO11WRITE") !== -1) {
+                    root.refreshTaskbarPins();
+                    return;
+                }
+                try {
+                    var out = JSON.parse(data["stdout"]);
+                    var text = Array.isArray(out.data) ? out.data[0] : out.data;
+                    var r = JSON.parse(text);
+                    root.neo11TaskbarFound = r.found === true;
+                    root.neo11TaskbarLaunchers = r.launchers || [];
+                } catch (e) {
+                    root.neo11TaskbarFound = false;
+                    root.neo11TaskbarLaunchers = [];
+                }
+            }
+        }
 
         Plasma5Support.DataSource {
             id: executable

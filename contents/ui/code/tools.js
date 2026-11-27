@@ -8,11 +8,31 @@
 
 .pragma library
 
-function fillActionMenu(i18n, actionMenu, actionList, favoriteModel, favoriteId) {
+function fillActionMenu(i18n, actionMenu, actionList, favoriteModel, favoriteId, taskbar) {
     // Accessing actionList can be a costly operation, so we don't
     // access it until we need the menu.
 
     var actions = createFavoriteActions(i18n, favoriteModel, favoriteId);
+
+    // Neo11 Taskleiste vorhanden: Plasmas „Zur Kontrollleiste hinzufügen (Widget)“ durch
+    // „An Taskleiste anheften / Von Taskleiste lösen“ ersetzen
+    if (taskbar && taskbar.found && taskbar.desktopId !== "") {
+        var filtered = [];
+        for (var i = 0; actionList && i < actionList.length; i++) {
+            var a = actionList[i];
+            if (a && (a.actionId === "addToPanel" || a.actionId === "addToTaskManager")) {
+                continue;
+            }
+            filtered.push(a);
+        }
+        filtered.push({
+            text: taskbar.pinned ? i18n("Von Taskleiste lösen") : i18n("An Taskleiste anheften"),
+            icon: taskbar.pinned ? "window-unpin" : "window-pin",
+            actionId: taskbar.pinned ? "_neo11_taskbar_unpin" : "_neo11_taskbar_pin",
+            actionArgument: { favoriteId: taskbar.desktopId }
+        });
+        actionList = filtered;
+    }
 
     if (actions) {
         if (actionList && actionList.length > 0) {
@@ -143,6 +163,11 @@ function createFavoriteActions(i18n, favoriteModel, favoriteId) {
 function triggerAction(model, index, actionId, actionArgument) {
     function startsWith(txt, needle) {
         return txt.substr(0, needle.length) === needle;
+    }
+
+    if (startsWith(actionId, "_neo11_taskbar_")) {
+        // wird im Startmenü selbst erledigt (siehe taskbarAction in den Delegates)
+        return false;
     }
 
     if (startsWith(actionId, "_kicker_favorite_")) {

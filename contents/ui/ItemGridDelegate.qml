@@ -50,12 +50,18 @@ Item {
             return;
         }
         var actionList = (model.actionList !== undefined) ? model.actionList : [];
-        Tools.fillActionMenu(i18n, actionMenu, actionList, GridView.view.model.favoritesModel, model.favoriteId);
+        Tools.fillActionMenu(i18n, actionMenu, actionList, GridView.view.model.favoritesModel, model.favoriteId,
+                            { found: root.neo11TaskbarFound, desktopId: root.desktopIdOf(model.favoriteId),
+                              pinned: root.isPinnedToTaskbar(model.favoriteId) });
         actionMenu.visualParent = item;
         actionMenu.open(x, y);
     }
 
     function actionTriggered(actionId, actionArgument) {
+        if (actionId === "_neo11_taskbar_pin" || actionId === "_neo11_taskbar_unpin") {
+            root.setTaskbarPin(actionArgument.favoriteId, actionId === "_neo11_taskbar_pin");
+            return;
+        }
         var close = (Tools.triggerAction(GridView.view.model, model.index, actionId, actionArgument) === true);
 
         if (close) {

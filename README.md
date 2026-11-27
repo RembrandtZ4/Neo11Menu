@@ -1,12 +1,68 @@
 # Neo11Menu
 
-Ein Startmenü im Stil von Windows 11 für KDE Plasma 6 – eine eigene, deutsche Version auf Basis von [Menu 11 Next](https://github.com/Eisteed/menu-11-next) von Eisteed.
+A Windows 11 style start menu for KDE Plasma 6 – a custom German version based on [Menu 11 Next](https://github.com/Eisteed/menu-11-next) by Eisteed.
 
-| Startseite | Alle Apps |
+| Start page | All apps |
 |---|---|
-| ![Startseite](docs/screenshots/start.png) | ![Alle Apps](docs/screenshots/alle-apps.png) |
+| ![Start page](docs/screenshots/start.png) | ![All apps](docs/screenshots/alle-apps.png) |
 
-<sub>Echte Screenshots unter CachyOS mit Plasma 6, [Neo11 Taskleiste](https://github.com/RembrandtZ4/Neo11-Taskbar) und [Neo11-Symbolen](https://github.com/RembrandtZ4/Neo11-Icons)</sub>
+<sub>Real screenshots on CachyOS with Plasma 6, [Neo11 Taskbar](https://github.com/RembrandtZ4/Neo11-Taskbar) and [Neo11 icons](https://github.com/RembrandtZ4/Neo11-Icons) / Echte Screenshots</sub>
+
+## Features
+
+- Own start button (3×3 tiles) with a Windows 11 style hover effect
+- Pinned apps; all apps as list, grid or by category
+- Folders via drag & drop
+- Recently used documents and apps
+- Search with calculator (`/calc 3*4`) and shell commands (`> command`, optional)
+- Quick actions (screenshot, lock, terminal …) and power buttons
+- Optional weather widget (data from Open-Meteo)
+- “Pin to taskbar” for the [Neo11 Taskbar](https://github.com/RembrandtZ4/Neo11-Taskbar)
+- Dark tooltips and Neo11 silver accent color (switchable to the system accent color)
+- Smooth slide-up animation when opening (can be turned off)
+- User interface in German
+
+## Requirements
+
+KDE Plasma 6.5 or newer.
+
+## Install
+
+```bash
+git clone https://github.com/RembrandtZ4/Neo11Menu.git
+cd Neo11Menu
+./install.sh
+```
+
+Then: right-click your current start button ▸ **“Show Alternatives …”** ▸ **Neo11Menu**.
+
+## Update
+
+```bash
+cd Neo11Menu
+git pull
+./install.sh
+```
+
+The script detects an existing installation, updates it and restarts Plasma.
+
+## Remove
+
+```bash
+kpackagetool6 -t Plasma/Applet -r de.rembrandtz4.neo11menu
+rm ~/.local/share/icons/hicolor/scalable/apps/neo11menu.svg
+```
+
+## License
+
+GPL-2.0 or later (see `LICENSE`), like the original.
+Based on Menu 11 Next by Eisteed, which builds on “menu 11 plasma6” by adhec and code by Eike Hein (KDE).
+
+---
+
+# Neo11Menu (Deutsch)
+
+Ein Startmenü im Stil von Windows 11 für KDE Plasma 6 – eine eigene, deutsche Version auf Basis von [Menu 11 Next](https://github.com/Eisteed/menu-11-next) von Eisteed. Screenshots siehe oben.
 
 ## Funktionen
 
@@ -19,6 +75,7 @@ Ein Startmenü im Stil von Windows 11 für KDE Plasma 6 – eine eigene, deutsch
 - Optionales Wetter-Widget (Daten von Open-Meteo)
 - „An Taskleiste anheften“ für die [Neo11 Taskleiste](https://github.com/RembrandtZ4/Neo11-Taskbar)
 - Dunkle Infofenster und Akzentfarbe Neo11-Silber (umschaltbar auf die Systemfarbe)
+- Sanftes Hochgleiten beim Öffnen (abschaltbar)
 - Komplett auf Deutsch
 
 ## Voraussetzungen

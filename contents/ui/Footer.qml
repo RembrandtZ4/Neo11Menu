@@ -93,11 +93,9 @@ RowLayout{
         icon.name:  "user-home"
         
         Layout.leftMargin: 10
-        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-        PlasmaComponents3.ToolTip {
-            delay: 1000
-            timeout: 1000
-            visible: parent.hovered
+        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+        NeoToolTip {
+            delay: 600
             text: i18n("Persönlicher Ordner")
         }
     }
@@ -112,11 +110,9 @@ RowLayout{
         icon.height: 24
         icon.name: "configure"
         Layout.leftMargin: 10
-        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-        PlasmaComponents3.ToolTip {
-            delay: 1000
-            timeout: 1000
-            visible: parent.hovered
+        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+        NeoToolTip {
+            delay: 600
             text: i18n("Systemeinstellungen")
         }
     }
@@ -138,11 +134,9 @@ RowLayout{
         icon.name: "system-lock-screen"
         
         Layout.rightMargin: 10
-        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-        PlasmaComponents3.ToolTip {
-            delay: 1000
-            timeout: 1000
-            visible: parent.hovered
+        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+        NeoToolTip {
+            delay: 600
             text: i18n("Abmelden")
         }
         visible: sessionManager.canLock
@@ -158,11 +152,9 @@ RowLayout{
         icon.height: 24
         icon.name:  "system-suspend"
         Layout.rightMargin: 10
-        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-        PlasmaComponents3.ToolTip {
-            delay: 1000
-            timeout: 1000
-            visible: parent.hovered
+        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+        NeoToolTip {
+            delay: 600
             text: i18n("Energie sparen")
         }
         visible: sessionManager.canSuspend && Plasmoid.configuration.showSleepButton
@@ -178,11 +170,9 @@ RowLayout{
         icon.height: 24
         icon.name:  "system-reboot"
         Layout.rightMargin: 10
-        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-        PlasmaComponents3.ToolTip {
-            delay: 1000
-            timeout: 1000
-            visible: parent.hovered
+        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+        NeoToolTip {
+            delay: 600
             text: i18n("Neu starten")
         }
         visible: sessionManager.canReboot && Plasmoid.configuration.showRestartButton
@@ -197,11 +187,9 @@ RowLayout{
         icon.height: 24
         icon.name:  "system-shutdown"
         Layout.rightMargin: 10
-        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-        PlasmaComponents3.ToolTip {
-            delay: 1000
-            timeout: 1000
-            visible: parent.hovered
+        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+        NeoToolTip {
+            delay: 600
             text: i18n("Herunterfahren")
         }
         visible: sessionManager.canShutdown && Plasmoid.configuration.showShutdownButton

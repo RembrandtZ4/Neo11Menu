@@ -69,6 +69,7 @@ KCM.SimpleKCM {
     property alias cfg_showShutdownButton: showShutdownCb.checked
     property alias cfg_showWeather: showWeatherCb.checked
     property alias cfg_openAnimation: openAnimationCb.checked
+    property alias cfg_accentMode: accentModeCombo.currentIndex
     property alias cfg_weatherLocation: weatherLocationCombo.currentIndex
     property alias cfg_weatherLatitude: weatherLatitudeField.value
     property alias cfg_weatherLongitude: weatherLongitudeField.value
@@ -286,6 +287,12 @@ KCM.SimpleKCM {
         CheckBox {
             id: showQuickActionsCb
             text: i18n("Schnellaktionen anzeigen (Bildschirmfoto, Sperren, Terminal …)")
+        }
+
+        ComboBox {
+            id: accentModeCombo
+            Kirigami.FormData.label: i18n("Akzentfarbe:")
+            model: [i18n("Neo11 Silber"), i18n("Akzentfarbe des Systems")]
         }
 
         CheckBox {

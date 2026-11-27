@@ -202,6 +202,14 @@ PlasmaCore.Dialog {
         return Qt.point(x, y);
     }
 
+    // Akzentfarbe des Menüs: Neo11-Silber (Standard) oder die Akzentfarbe des Systems
+    readonly property color accentColor: Plasmoid.configuration.accentMode === 1
+        ? Kirigami.Theme.highlightColor
+        : Qt.tint(Kirigami.Theme.backgroundColor, colorWithAlpha(Kirigami.Theme.textColor, 0.82))
+    readonly property color accentTextColor: Plasmoid.configuration.accentMode === 1
+        ? Kirigami.Theme.highlightedTextColor
+        : Kirigami.Theme.backgroundColor
+
     function colorWithAlpha(color: color, alpha: real): color {
         return Qt.rgba(color.r, color.g, color.b, alpha);
     }
@@ -899,10 +907,9 @@ PlasmaCore.Dialog {
                     delegate: PC3.ToolButton {
                         icon.name: modelData.icon
                         display: AbstractButton.IconOnly
-                        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-                        PC3.ToolTip {
+                        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+                        NeoToolTip {
                             text: modelData.tip
-                            visible: parent.hovered
                             delay: 400
                         }
                         opacity: hovered ? 1.0 : 0.55
@@ -991,10 +998,9 @@ PlasmaCore.Dialog {
                     PC3.ToolButton {
                         icon.name: "folder-new"
                         display: AbstractButton.IconOnly
-                        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-                        PC3.ToolTip {
+                        // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+                        NeoToolTip {
                             text: i18n("Neuer Ordner")
-                            visible: parent.hovered
                             delay: 500
                         }
                         onClicked: {
@@ -1111,7 +1117,7 @@ PlasmaCore.Dialog {
                                     anchors.fill: parent
                                     radius: height / 2
                                     color: isCurrent
-                                           ? Kirigami.Theme.highlightColor
+                                           ? root.accentColor
                                            : root.colorWithAlpha(Kirigami.Theme.textColor, 0.3)
 
                                     Behavior on color {
@@ -1163,7 +1169,7 @@ PlasmaCore.Dialog {
                                 anchors.fill: parent
                                 anchors.margins: Kirigami.Units.smallSpacing / 2
                                 radius: Kirigami.Units.smallSpacing + 2
-                                color: Kirigami.Theme.highlightColor
+                                color: root.accentColor
                                 opacity: tileHover.containsMouse ? 0.12 : 0.0
                                 Behavior on opacity { NumberAnimation { duration: 100 } }
                             }
@@ -1175,7 +1181,7 @@ PlasmaCore.Dialog {
                                 radius: Kirigami.Units.smallSpacing + 3
                                 color: "transparent"
                                 border.width: folderTile.activeFocus ? 2 : 0
-                                border.color: Kirigami.Theme.highlightColor
+                                border.color: root.accentColor
                                 opacity: 0.75
                                 Behavior on border.width { NumberAnimation { duration: 80 } }
                             }
@@ -1280,7 +1286,7 @@ PlasmaCore.Dialog {
                                     radius: Kirigami.Units.smallSpacing + 3
                                     color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.1)
                                     border.width: 2
-                                    border.color: Kirigami.Theme.highlightColor
+                                    border.color: root.accentColor
                                     visible: folderDropTarget.containsDrag
                                              && typeof kicker.dragSource !== "undefined"
                                              && kicker.dragSource !== null
@@ -1356,10 +1362,10 @@ PlasmaCore.Dialog {
                                 width: Kirigami.Units.iconSizes.medium + Kirigami.Units.gridUnit * 2
                                 height: recentAppsListView.height
 
-                                // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-                                PC3.ToolTip {
+                                // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+                                NeoToolTip {
                                     text: model.display || ""
-                                    visible: recentAppHover.containsMouse && recentAppLabel.truncated
+                                    active: recentAppHover.containsMouse && recentAppLabel.truncated
                                     delay: 800
                                 }
 
@@ -1367,7 +1373,7 @@ PlasmaCore.Dialog {
                                     anchors.fill: parent
                                     anchors.margins: -Kirigami.Units.smallSpacing / 2
                                     radius: Kirigami.Units.smallSpacing + 2
-                                    color: Kirigami.Theme.highlightColor
+                                    color: root.accentColor
                                     opacity: recentAppHover.containsMouse ? 0.12 : 0.0
                                     Behavior on opacity { NumberAnimation { duration: 100 } }
                                 }
@@ -1581,7 +1587,7 @@ PlasmaCore.Dialog {
                                             text: modelData
                                             font.pixelSize: Math.max(7, Math.min(11, parent.height * 0.72))
                                             color: alphabetSliderWrapper.activeLetter === modelData
-                                                   ? Kirigami.Theme.highlightColor
+                                                   ? root.accentColor
                                                    : Kirigami.Theme.textColor
                                             opacity: alphabetSliderWrapper.activeLetter === modelData ? 1.0 : 0.5
                                             font.bold: alphabetSliderWrapper.activeLetter === modelData
@@ -1677,7 +1683,7 @@ PlasmaCore.Dialog {
                             text: parent.currentLetter
                             font.pixelSize: Kirigami.Units.gridUnit * 5
                             font.bold: true
-                            color: Kirigami.Theme.highlightColor
+                            color: root.accentColor
                         }
 
                         Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -1768,7 +1774,7 @@ PlasmaCore.Dialog {
                                     anchors.fill: parent
                                     radius: height / 2
                                     color: isActive
-                                           ? Kirigami.Theme.highlightColor
+                                           ? root.accentColor
                                            : colorWithAlpha(Kirigami.Theme.textColor, 0.08)
                                     border.width: isActive ? 0 : 1
                                     border.color: colorWithAlpha(Kirigami.Theme.textColor, 0.12)
@@ -1782,7 +1788,7 @@ PlasmaCore.Dialog {
                                     radius: height / 2 + 2
                                     color: "transparent"
                                     border.width: pillDelegate.activeFocus ? 2 : 0
-                                    border.color: Kirigami.Theme.highlightColor
+                                    border.color: root.accentColor
                                     opacity: 0.8
                                     Behavior on border.width { NumberAnimation { duration: 80 } }
                                 }
@@ -1792,7 +1798,7 @@ PlasmaCore.Dialog {
                                     anchors.centerIn: parent
                                     text: modelData.label
                                     color: isActive
-                                           ? "white"
+                                           ? root.accentTextColor
                                            : colorWithAlpha(Kirigami.Theme.textColor, 0.75)
                                     font.pointSize: Kirigami.Theme.defaultFont.pointSize * 0.85
                                     font.bold: isActive
@@ -2043,9 +2049,9 @@ PlasmaCore.Dialog {
 
                 // ── Alt+1-9 hint (subtle, shown when results exist) ──
                 Text {
+                    // Rechts neben den Filtern statt über der ersten Überschrift
                     anchors.right: parent.right
-                    anchors.top: filterPillsWrapper.bottom
-                    anchors.topMargin: 2
+                    anchors.verticalCenter: filterPillsWrapper.verticalCenter
                     anchors.rightMargin: Kirigami.Units.smallSpacing
                     visible: root.searching && runnerGrid.count > 0
                              && !searchField.text.startsWith('/')
@@ -3156,16 +3162,16 @@ PlasmaCore.Dialog {
                                     radius: 3
                                     border.width: 1.5
                                     border.color: model.inFolder
-                                                  ? Kirigami.Theme.highlightColor
+                                                  ? root.accentColor
                                                   : root.colorWithAlpha(Kirigami.Theme.textColor, 0.35)
-                                    color: model.inFolder ? Kirigami.Theme.highlightColor : "transparent"
+                                    color: model.inFolder ? root.accentColor : "transparent"
                                     Behavior on color { ColorAnimation { duration: 80 } }
                                     Behavior on border.color { ColorAnimation { duration: 80 } }
 
                                     Text {
                                         anchors.centerIn: parent
                                         text: "✓"
-                                        color: "white"
+                                        color: root.accentTextColor
                                         font.pixelSize: parent.width * 0.62
                                         visible: model.inFolder
                                     }

@@ -73,7 +73,7 @@ Item {
         visible: isFolderItem && folderDropArea.containsDrag
         color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.09)
         border.width: 2
-        border.color: Kirigami.Theme.highlightColor
+        border.color: root.accentColor
         z: 1
     }
 
@@ -218,7 +218,7 @@ Item {
         width: Kirigami.Units.gridUnit * 1.4
         height: width
         radius: width / 2
-        color: Kirigami.Theme.highlightColor
+        color: root.accentColor
         z: 3
 
         Behavior on opacity { NumberAnimation { duration: 80 } }
@@ -226,7 +226,7 @@ Item {
         Text {
             anchors.centerIn: parent
             text: parent.pageRelIdx + 1
-            color: "white"
+            color: root.accentTextColor
             font.bold: true
             font.pixelSize: parent.width * 0.52
         }

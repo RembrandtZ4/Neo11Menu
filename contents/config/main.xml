@@ -138,6 +138,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="accentMode" type="Int">
+      <default>0</default>
+      <label>Accent color: 0 = Neo11 silver, 1 = system accent color</label>
+    </entry>
+
     <entry name="openAnimation" type="Bool">
       <default>true</default>
       <label>Slide the menu content up when opening (like Windows 11)</label>

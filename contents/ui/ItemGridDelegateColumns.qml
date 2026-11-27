@@ -74,7 +74,7 @@ Item {
         visible: isFolderItem && colFolderDropArea.containsDrag
         color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.09)
         border.width: 2
-        border.color: Kirigami.Theme.highlightColor
+        border.color: root.accentColor
         z: 1
     }
 
@@ -221,10 +221,9 @@ Item {
             icon.width: Kirigami.Units.iconSizes.small
             icon.height: Kirigami.Units.iconSizes.small
 
-            // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
-            PlasmaComponents3.ToolTip {
+            // Eigenes Infofenster – der Plasma-Tooltip erscheint je nach Plasma-Stil weiß
+            NeoToolTip {
                 text: isFav ? i18n("Von Start lösen") : i18n("An Start anheften")
-                visible: parent.hovered
                 delay: 600
             }
 

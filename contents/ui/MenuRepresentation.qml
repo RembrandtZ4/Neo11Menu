@@ -863,9 +863,12 @@ PlasmaCore.Dialog {
                     delegate: PC3.ToolButton {
                         icon.name: modelData.icon
                         display: AbstractButton.IconOnly
-                        PC3.ToolTip.text: modelData.tip
-                        PC3.ToolTip.visible: hovered
-                        PC3.ToolTip.delay: 400
+                        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+                        PC3.ToolTip {
+                            text: modelData.tip
+                            visible: parent.hovered
+                            delay: 400
+                        }
                         opacity: hovered ? 1.0 : 0.55
                         Behavior on opacity { NumberAnimation { duration: 100 } }
                         onClicked: {
@@ -952,9 +955,12 @@ PlasmaCore.Dialog {
                     PC3.ToolButton {
                         icon.name: "folder-new"
                         display: AbstractButton.IconOnly
-                        PC3.ToolTip.text: i18n("Neuer Ordner")
-                        PC3.ToolTip.visible: hovered
-                        PC3.ToolTip.delay: 500
+                        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+                        PC3.ToolTip {
+                            text: i18n("Neuer Ordner")
+                            visible: parent.hovered
+                            delay: 500
+                        }
                         onClicked: {
                             newFolderNameField.text = "";
                             appPickerListView.checkedIds = [];
@@ -1314,9 +1320,12 @@ PlasmaCore.Dialog {
                                 width: Kirigami.Units.iconSizes.medium + Kirigami.Units.gridUnit * 2
                                 height: recentAppsListView.height
 
-                                PC3.ToolTip.text: model.display || ""
-                                PC3.ToolTip.visible: recentAppHover.containsMouse && recentAppLabel.truncated
-                                PC3.ToolTip.delay: 800
+                                // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+                                PC3.ToolTip {
+                                    text: model.display || ""
+                                    visible: recentAppHover.containsMouse && recentAppLabel.truncated
+                                    delay: 800
+                                }
 
                                 Rectangle {
                                     anchors.fill: parent

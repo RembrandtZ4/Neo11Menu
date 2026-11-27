@@ -93,10 +93,13 @@ RowLayout{
         icon.name:  "user-home"
         
         Layout.leftMargin: 10
-        PlasmaComponents3.ToolTip.delay: 1000
-        PlasmaComponents3.ToolTip.timeout: 1000
-        PlasmaComponents3.ToolTip.visible: hovered
-        PlasmaComponents3.ToolTip.text: i18n("Persönlicher Ordner")
+        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+        PlasmaComponents3.ToolTip {
+            delay: 1000
+            timeout: 1000
+            visible: parent.hovered
+            text: i18n("Persönlicher Ordner")
+        }
     }
 
     PlasmaComponents3.ToolButton {
@@ -109,10 +112,13 @@ RowLayout{
         icon.height: 24
         icon.name: "configure"
         Layout.leftMargin: 10
-        PlasmaComponents3.ToolTip.delay: 1000
-        PlasmaComponents3.ToolTip.timeout: 1000
-        PlasmaComponents3.ToolTip.visible: hovered
-        PlasmaComponents3.ToolTip.text: i18n("Systemeinstellungen")
+        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+        PlasmaComponents3.ToolTip {
+            delay: 1000
+            timeout: 1000
+            visible: parent.hovered
+            text: i18n("Systemeinstellungen")
+        }
     }
 
     Item{
@@ -132,10 +138,13 @@ RowLayout{
         icon.name: "system-lock-screen"
         
         Layout.rightMargin: 10
-        PlasmaComponents3.ToolTip.delay: 1000
-        PlasmaComponents3.ToolTip.timeout: 1000
-        PlasmaComponents3.ToolTip.visible: hovered
-        PlasmaComponents3.ToolTip.text: i18n("Abmelden")
+        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+        PlasmaComponents3.ToolTip {
+            delay: 1000
+            timeout: 1000
+            visible: parent.hovered
+            text: i18n("Abmelden")
+        }
         visible: sessionManager.canLock
     }
     
@@ -149,10 +158,13 @@ RowLayout{
         icon.height: 24
         icon.name:  "system-suspend"
         Layout.rightMargin: 10
-        PlasmaComponents3.ToolTip.delay: 1000
-        PlasmaComponents3.ToolTip.timeout: 1000
-        PlasmaComponents3.ToolTip.visible: hovered
-        PlasmaComponents3.ToolTip.text: i18n("Energie sparen")
+        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+        PlasmaComponents3.ToolTip {
+            delay: 1000
+            timeout: 1000
+            visible: parent.hovered
+            text: i18n("Energie sparen")
+        }
         visible: sessionManager.canSuspend && Plasmoid.configuration.showSleepButton
     }
 
@@ -166,10 +178,13 @@ RowLayout{
         icon.height: 24
         icon.name:  "system-reboot"
         Layout.rightMargin: 10
-        PlasmaComponents3.ToolTip.delay: 1000
-        PlasmaComponents3.ToolTip.timeout: 1000
-        PlasmaComponents3.ToolTip.visible: hovered
-        PlasmaComponents3.ToolTip.text: i18n("Neu starten")
+        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+        PlasmaComponents3.ToolTip {
+            delay: 1000
+            timeout: 1000
+            visible: parent.hovered
+            text: i18n("Neu starten")
+        }
         visible: sessionManager.canReboot && Plasmoid.configuration.showRestartButton
     }
     PlasmaComponents3.ToolButton {
@@ -182,10 +197,13 @@ RowLayout{
         icon.height: 24
         icon.name:  "system-shutdown"
         Layout.rightMargin: 10
-        PlasmaComponents3.ToolTip.delay: 1000
-        PlasmaComponents3.ToolTip.timeout: 1000
-        PlasmaComponents3.ToolTip.visible: hovered
-        PlasmaComponents3.ToolTip.text: i18n("Herunterfahren")
+        // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+        PlasmaComponents3.ToolTip {
+            delay: 1000
+            timeout: 1000
+            visible: parent.hovered
+            text: i18n("Herunterfahren")
+        }
         visible: sessionManager.canShutdown && Plasmoid.configuration.showShutdownButton
     }
 

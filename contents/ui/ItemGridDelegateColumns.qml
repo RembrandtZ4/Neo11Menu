@@ -221,9 +221,12 @@ Item {
             icon.width: Kirigami.Units.iconSizes.small
             icon.height: Kirigami.Units.iconSizes.small
 
-            PlasmaComponents3.ToolTip.text: isFav ? i18n("Von Start lösen") : i18n("An Start anheften")
-            PlasmaComponents3.ToolTip.visible: hovered
-            PlasmaComponents3.ToolTip.delay: 600
+            // Eigener Plasma-Tooltip – der angehängte ToolTip erscheint sonst im hellen Standardstil
+            PlasmaComponents3.ToolTip {
+                text: isFav ? i18n("Von Start lösen") : i18n("An Start anheften")
+                visible: parent.hovered
+                delay: 600
+            }
 
             opacity: hovered ? 1.0 : 0.6
 

@@ -72,7 +72,7 @@ Item {
         anchors.margins: 2
         radius: Kirigami.Units.smallSpacing
         visible: isFolderItem && colFolderDropArea.containsDrag
-        color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.18)
+        color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.09)
         border.width: 2
         border.color: Kirigami.Theme.highlightColor
         z: 1
@@ -192,7 +192,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: Kirigami.Units.smallSpacing
-            color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.18)
+            color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.09)
         }
 
         Kirigami.Icon {

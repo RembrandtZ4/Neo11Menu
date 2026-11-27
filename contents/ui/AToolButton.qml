@@ -1,57 +1,69 @@
-import QtQuick 2.4
-import QtQuick.Controls
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+/*
+    Kleiner Knopf wie „Alle >“ im Windows-11-Startmenü:
+    dezent getönte Fläche ohne harten Rahmen, beim Drüberfahren etwas heller.
+    flat: true = ganz ohne Fläche, nur beim Drüberfahren sichtbar.
+*/
+import QtQuick
+import QtQuick.Layouts
+import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
 
-Rectangle{
-
-    id:item
-
+Rectangle {
+    id: item
 
     property int buttonHeight: Math.floor(Kirigami.Units.gridUnit * 2)
-    implicitHeight: buttonHeight
-    implicitWidth: row.implicitWidth + (Kirigami.Units.mediumSpacing * 2)
-
-    border.width: mouseItem.containsMouse || focus || activeFocus  ? 2 : 1
-    border.color: Qt.rgba(0.5, 0.5, 0.5, 0.6) // Gray border always
-
-    radius: 5
-    color: mouseItem.containsMouse ? Qt.rgba(0.7, 0.7, 0.7, 0.3) : Kirigami.Theme.backgroundColor
-    
-    smooth: true // Plasmoid.configuration.iconSmooth
-    focus: true
-
     property alias text: lb.text
     property bool flat: false
     property alias iconName: icon.source
+    // true = Symbol links vom Text (z. B. „< Zurück“)
     property bool mirror: false
 
     signal clicked
 
-    //Keys.onEnterPressed: item.clicked()
+    implicitHeight: buttonHeight
+    implicitWidth: row.implicitWidth + Kirigami.Units.largeSpacing * 2
+
+    readonly property bool hot: mouseItem.containsMouse || item.activeFocus
+    readonly property color tint: Kirigami.Theme.textColor
+
+    radius: 4
+    color: {
+        var a = flat ? (mouseItem.pressed ? 0.05 : hot ? 0.08 : 0.0)
+                     : (mouseItem.pressed ? 0.04 : hot ? 0.10 : 0.06);
+        return Qt.rgba(tint.r, tint.g, tint.b, a);
+    }
+    border.width: flat ? 0 : 1
+    border.color: Qt.rgba(tint.r, tint.g, tint.b, 0.05)
+
+    Behavior on color {
+        ColorAnimation {
+            duration: Kirigami.Units.shortDuration
+        }
+    }
+
+    activeFocusOnTab: true
     Keys.onSpacePressed: item.clicked()
+    Keys.onReturnPressed: item.clicked()
 
     RowLayout {
         id: row
-        anchors.fill: parent
-        anchors.margins: Kirigami.Units.smallSpacing
-        anchors.topMargin: Kirigami.Units.smallSpacing / 2
-        anchors.bottomMargin: Kirigami.Units.smallSpacing / 2
+        anchors.centerIn: parent
         spacing: Kirigami.Units.smallSpacing
-        LayoutMirroring.enabled: mirror
+        LayoutMirroring.enabled: item.mirror
 
-        Label {
+        PC3.Label {
             id: lb
-            color: Kirigami.Theme.textColor
-            Layout.leftMargin: Kirigami.Units.smallSpacing
+            font.pointSize: Kirigami.Theme.defaultFont.pointSize * 0.9
+            opacity: mouseItem.pressed ? 0.7 : 0.9
         }
 
         Kirigami.Icon {
             id: icon
-            implicitHeight: Kirigami.Units.gridUnit
+            implicitHeight: Kirigami.Units.iconSizes.small * 0.75
             implicitWidth: implicitHeight
-            smooth: true
+            opacity: lb.opacity
+            roundToIconSize: false
+            visible: source !== ""
         }
     }
 
@@ -62,5 +74,4 @@ Rectangle{
         cursorShape: Qt.PointingHandCursor
         onClicked: item.clicked()
     }
-
 }

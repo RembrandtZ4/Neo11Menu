@@ -296,9 +296,10 @@ FocusScope {
 
                 delegate: itemColumns == 1 ? aItemGridDelegate :  aItemGridDelegate2
                 highlight: Rectangle {
-                    color: Qt.rgba(Kirigami.Theme.highlightColor.r,
-                                   Kirigami.Theme.highlightColor.g,
-                                   Kirigami.Theme.highlightColor.b, 0.18)
+                    // Neutral wie Windows 11 (kein Akzent-Blau beim Drüberfahren)
+                    color: Qt.rgba(Kirigami.Theme.textColor.r,
+                                   Kirigami.Theme.textColor.g,
+                                   Kirigami.Theme.textColor.b, 0.08)
                     radius: 6
                 }
 

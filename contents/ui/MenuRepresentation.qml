@@ -111,6 +111,7 @@ PlasmaCore.Dialog {
             if (weatherCard) {
                 weatherCard.updateWeather();
             }
+            rootItem.playOpenAnimation();
         } else {
             view.currentIndex = 0;
         }
@@ -207,6 +208,41 @@ PlasmaCore.Dialog {
 
     mainItem: FocusScope {
         id: rootItem
+
+        // Öffnen-Animation wie Windows 11: Inhalt gleitet ein Stück hoch und blendet ein
+        transform: Translate {
+            id: openSlide
+        }
+
+        ParallelAnimation {
+            id: openAnimation
+            NumberAnimation {
+                target: openSlide
+                property: "y"
+                from: (root.location === PlasmaCore.Types.TopEdge ? -1 : 1) * Kirigami.Units.gridUnit * 1.5
+                to: 0
+                duration: 260
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: rootItem
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 200
+                easing.type: Easing.OutQuad
+            }
+        }
+
+        function playOpenAnimation() {
+            if (Plasmoid.configuration.openAnimation && Kirigami.Units.longDuration > 0) {
+                openAnimation.restart();
+            } else {
+                openAnimation.stop();
+                openSlide.y = 0;
+                rootItem.opacity = 1;
+            }
+        }
 
 
         property int widthComputed: root.cellSizeWidth * Plasmoid.configuration.numberColumns + Kirigami.Units.gridUnit * 2
@@ -1158,9 +1194,9 @@ PlasmaCore.Dialog {
                                     Rectangle {
                                         anchors.fill: parent
                                         radius: Kirigami.Units.smallSpacing
-                                        color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.15)
+                                        color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.07)
                                         border.width: 1
-                                        border.color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.35)
+                                        border.color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.1)
                                     }
 
                                     Grid {
@@ -1242,7 +1278,7 @@ PlasmaCore.Dialog {
                                     anchors.fill: parent
                                     anchors.margins: 1
                                     radius: Kirigami.Units.smallSpacing + 3
-                                    color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.22)
+                                    color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.1)
                                     border.width: 2
                                     border.color: Kirigami.Theme.highlightColor
                                     visible: folderDropTarget.containsDrag
@@ -1502,7 +1538,8 @@ PlasmaCore.Dialog {
                     AToolButton {
                         flat: false
                         iconName: 'go-previous'
-                        text: i18n("Angeheftet")
+                        mirror: true
+                        text: i18n("Zurück")
                         buttonHeight: 25
                         onClicked: view.currentIndex = 0
                     }
@@ -1845,9 +1882,9 @@ PlasmaCore.Dialog {
                             anchors.fill: parent
                             anchors.margins: 2
                             radius: Kirigami.Units.smallSpacing
-                            color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.08)
+                            color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.04)
                             border.width: 1
-                            border.color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.22)
+                            border.color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.1)
                         }
 
                         Row {
@@ -1859,7 +1896,7 @@ PlasmaCore.Dialog {
                             Rectangle {
                                 width: Kirigami.Units.gridUnit * 2; height: width
                                 radius: width / 2
-                                color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.18)
+                                color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.09)
                                 anchors.verticalCenter: parent.verticalCenter
                                 Kirigami.Icon {
                                     source: "accessories-calculator"
@@ -1931,7 +1968,7 @@ PlasmaCore.Dialog {
                         }
 
                         highlight: Rectangle {
-                            color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.18)
+                            color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.09)
                             radius: Kirigami.Units.smallSpacing
                         }
                         highlightMoveDuration: 80
@@ -1945,7 +1982,7 @@ PlasmaCore.Dialog {
                                 anchors.margins: 2
                                 radius: Kirigami.Units.smallSpacing
                                 color: cmdItemHover.containsMouse && commandPaletteList.currentIndex !== index
-                                       ? root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.08)
+                                       ? root.colorWithAlpha(Kirigami.Theme.textColor, 0.04)
                                        : "transparent"
                                 Behavior on color { ColorAnimation { duration: 80 } }
                             }
@@ -1960,7 +1997,7 @@ PlasmaCore.Dialog {
                                     width: Kirigami.Units.gridUnit * 2
                                     height: width
                                     radius: width / 2
-                                    color: root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.15)
+                                    color: root.colorWithAlpha(Kirigami.Theme.textColor, 0.07)
                                     anchors.verticalCenter: parent.verticalCenter
 
                                     Kirigami.Icon {
@@ -2231,7 +2268,7 @@ PlasmaCore.Dialog {
                                 anchors.margins: 2
                                 radius: Kirigami.Units.smallSpacing
                                 color: appEntryHover.containsMouse
-                                       ? root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.12)
+                                       ? root.colorWithAlpha(Kirigami.Theme.textColor, 0.06)
                                        : "transparent"
                                 Behavior on color { ColorAnimation { duration: 80 } }
                             }
@@ -2356,7 +2393,7 @@ PlasmaCore.Dialog {
                                     anchors.margins: 1
                                     radius: Kirigami.Units.smallSpacing
                                     color: pickHover.containsMouse
-                                           ? root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.08)
+                                           ? root.colorWithAlpha(Kirigami.Theme.textColor, 0.04)
                                            : "transparent"
                                 }
 
@@ -2640,7 +2677,7 @@ PlasmaCore.Dialog {
                                 anchors.margins: 2
                                 radius: Kirigami.Units.smallSpacing
                                 color: aafAppHover.containsMouse
-                                       ? root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.12) : "transparent"
+                                       ? root.colorWithAlpha(Kirigami.Theme.textColor, 0.06) : "transparent"
                                 Behavior on color { ColorAnimation { duration: 80 } }
                             }
 
@@ -3081,7 +3118,7 @@ PlasmaCore.Dialog {
                                     anchors.margins: 1
                                     radius: Kirigami.Units.smallSpacing
                                     color: pickerRowHover.containsMouse
-                                           ? root.colorWithAlpha(Kirigami.Theme.highlightColor, 0.12)
+                                           ? root.colorWithAlpha(Kirigami.Theme.textColor, 0.06)
                                            : "transparent"
                                     Behavior on color { ColorAnimation { duration: 80 } }
                                 }

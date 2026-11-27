@@ -138,6 +138,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="openAnimation" type="Bool">
+      <default>true</default>
+      <label>Slide the menu content up when opening (like Windows 11)</label>
+    </entry>
+
     <entry name="showWeather" type="Bool">
       <default>false</default>
       <label>Show weather widget on home page</label>

@@ -117,11 +117,12 @@ PlasmaComponents.ScrollView {
                                 anchors.left: parent.left
                                 anchors.leftMargin: Kirigami.Units.smallSpacing
                                 anchors.verticalCenter: categoryLabel.verticalCenter
-                                width: 3
+                                // Kein farbiger Balken mehr – Windows 11 hat schlichte Überschriften
+                                width: 0
+                                visible: false
                                 height: categoryLabel.implicitHeight * 0.85
                                 radius: 2
-                                color: Kirigami.Theme.highlightColor
-                                opacity: 0.85
+                                color: Kirigami.Theme.textColor
                             }
 
                             // Category icon

@@ -13,19 +13,29 @@ Rectangle {
     visible: Plasmoid.configuration.showWeather === true
     height: visible ? 60 : 0
     width: parent.width
-    color: Kirigami.Theme.backgroundColor
-    radius: 4
-    border.color: Kirigami.Theme.textColor
+    // Dezente Karte wie im Windows-11-Startmenü statt harter weißer Rahmenlinie
+    color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.04)
+    radius: 6
+    border.color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.06)
     border.width: 1
 
     property string temperature: "Lädt …"
     property string condition: "Lädt …"
     property string weatherIcon: "weather-clouds"
+    // Zeitpunkt des letzten Abrufs – beim Öffnen des Menüs höchstens alle 10 Minuten neu laden
+    property double lastFetch: 0
+
+    // Wird von MenuRepresentation beim Öffnen aufgerufen
+    function updateWeather() {
+        if (visible && Date.now() - lastFetch > 600000) {
+            fetchWeatherFromAPI();
+        }
+    }
 
     Timer {
         id: weatherUpdateTimer
         interval: 600000
-        running: true
+        running: weatherCard.visible
         repeat: true
         onTriggered: {
             weatherCard.fetchWeatherFromAPI();
@@ -72,6 +82,10 @@ Rectangle {
 
 
     function fetchWeatherFromAPI() {
+        if (!visible) {
+            return;
+        }
+        lastFetch = Date.now();
         var xhr = new XMLHttpRequest();
         var lat = Plasmoid.configuration.weatherLatitude || 48.8566;
         var lon = Plasmoid.configuration.weatherLongitude || 2.3522;

@@ -22,10 +22,20 @@ if [ -d "$HOME/.local/share/plasma/plasmoids/$ID" ]; then
   echo "Neo11Menu wird aktualisiert …"
   kpackagetool6 -t Plasma/Applet -u .
   echo "Plasma wird neu gestartet, damit die neue Version geladen wird …"
-  systemctl --user restart plasma-plasmashell.service 2>/dev/null || {
-    kquitapp6 plasmashell 2>/dev/null || true
-    (plasmashell >/dev/null 2>&1 &)
-  }
+  # Robust neu starten – „systemctl restart“ scheitert, wenn der Dienst sein Startlimit erreicht hat
+  ALT_PID=$(pgrep -u "$USER" -x plasmashell | head -n1)
+  systemctl --user reset-failed plasma-plasmashell.service 2>/dev/null || true
+  setsid -f plasmashell --replace >/dev/null 2>&1
+  for _ in $(seq 1 20); do
+    sleep 0.5
+    NEU_PID=$(pgrep -u "$USER" -x plasmashell | head -n1)
+    if [ -n "$NEU_PID" ] && [ "$NEU_PID" != "$ALT_PID" ]; then
+      break
+    fi
+  done
+  if [ -z "$(pgrep -u "$USER" -x plasmashell)" ]; then
+    echo "Plasma läuft nicht – bitte Alt+F2 drücken und „plasmashell“ eingeben."
+  fi
   echo "Fertig!"
 else
   echo "Neo11Menu wird installiert …"
